@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Просмотр файлов Яндекс.Диска</title>
+<style>
+body { 
+    font-family: sans-serif; 
+    margin: 20px; 
+}
+.error { 
+    color: red; 
+}
+.file-list { 
+    margin-top: 20px; 
+    border-collapse: collapse; 
+    width: 100%; 
+}
+.file-list th, .file-list td { 
+    border: 1px solid #ddd; 
+    padding: 8px; text-align: left; 
+}
+.file-list tr:nth-child(even) { 
+    background-color: #f2f2f2; 
+}
+.download-button { 
+    padding: 5px 10px; 
+    background-color: #007bff; 
+    color: white; 
+    border: none; 
+    cursor: pointer; 
+    text-decoration: none; 
+    display: inline-block; 
+    margin-right: 5px; 
+}
+.download-button:hover { 
+    background-color: #0056b3; 
+    }
+</style>
+</head>
+<body>
+    <h1>Просмотр файлов Яндекс.Диска</h1>
+    {% if error %}
+    <p class="error">{{ error }}</p>
+    {% endif %}
+    {% block content %}{% endblock %}
+</body>
+</html>

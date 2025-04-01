@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {% if not request.session.yandex_token %}
+        <p><a href="{% url 'start_auth' %}">Авторизоваться через Яндекс</a> (необязательно для публичных ссылок)</p>
+    {% endif %}
+    <form method="post" action="{% url 'view_files' %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Просмотреть</button>
+    </form>
+{% endblock %}

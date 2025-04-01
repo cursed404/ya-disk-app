@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Файлы по ссылке: {{ public_key }}</h2>
+
+    <form method="get" action="{% url 'view_files' %}">
+        <input type="hidden" name="public_key" value="{{ public_key }}">
+        <label for="file_type">Фильтр по типу:</label>
+        <select name="file_type" id="file_type">
+            <option value="all">Все</option>
+            <option value="dir">Папки</option>
+            <option value="file">Файлы</option>
+        </select>
+        <button type="submit">Применить фильтр</button>
+    </form>
+
+    {% if files %}
+        <form method="post" action="{% url 'download_multiple' %}">
+            {% csrf_token %}
+            <input type="hidden" name="public_key" value="{{ public_key }}">
+            <table class="file-list">
+                <thead>
+                    <tr>
+                        <th>Выбрать</th>
+                        <th>Название</th>
+                        <th>Тип</th>
+                        <th>Действия</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for file in files %}
+                        <tr>
+                            <td>
+                                {% if file.type == 'file' %}
+                                    <input type="checkbox" name="selected_files" value="{{ file.path }}">
+                                {% endif %}
+                            </td>
+                            <td>{{ file.name }}</td>
+                            <td>{{ file.type }}</td>
+                            <td>
+                                {% if file.type == 'file' %}
+                                    <a href="{% url 'download_file' %}?public_key={{ public_key }}&path={{ file.path }}" class="download-button">Скачать</a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <button type="submit">Скачать выбранные</button>
+        </form>
+    {% else %}
+        <p>По данной ссылке файлы не найдены.</p>
+    {% endif %}
+    <p><a href="{% url 'index' %}">Вернуться к вводу ссылки</a></p>
+{% endblock %}
